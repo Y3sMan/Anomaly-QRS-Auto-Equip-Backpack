@@ -210,6 +210,12 @@ local dte = demonized_time_events
 -- state variables
 local backpack_slot = 13
 
+-- kill yourself on K
+function on_key_press(key)
+    if key == DIK_keys.DIK_K then
+        db.actor:change_health(-2)
+    end
+end
 
 --------------------------------------------
 -- QRS Patch
@@ -300,4 +306,5 @@ function on_game_start()
     -- RegisterScriptCallback("actor_on_item_to_slot", on_item_to_slot)
     -- RegisterScriptCallback("actor_on_item_drop", on_item_to_ruck)
     -- RegisterScriptCallback("actor_on_item_to_ruck", on_item_to_ruck)
+    RegisterScriptCallback("on_key_press", on_key_press)
 end
