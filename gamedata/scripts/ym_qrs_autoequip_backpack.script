@@ -220,16 +220,21 @@ current_retry = 1
 max_retry = 5
 
 ---Time event function to equip backpack
----@param backpack string: The section of the backpack
-function equip_backpack(backpack)
+---@param backpack_sec string section: The section of the backpack
+---@return boolean repeat : false returns will repeat the time event. True returns cease the time event after execution
+function equip_backpack(backpack_sec)
     if not db.actor then return true end
+    if (not backpack_sec) or (type(backpack_sec) ~= "string") then
+        error("equip_backpack: backpack parameter is nil or not a string; type = %s", backpack_sec and type(backpack_sec))
+        return true
+    end
 
     local backpackFound = false
 
-    debug("attempting to equip backpack %s on attempt %s", backpack, current_retry)
+    debug("attempting to equip backpack %s on attempt %s", backpack_sec, current_retry)
 
     -- check if backpack is an object in inventory
-    local b_obj = db.actor:object(backpack)
+    local b_obj = db.actor:object(backpack_sec)
     if b_obj then
         debug("backpack exists in inv")
         db.actor:move_to_slot(b_obj, backpack_slot)
@@ -271,7 +276,8 @@ function item_backpack.actor_on_item_take_from_box(box, obj)
 
             -- attempt to equip it
 
-
+            -- reset retries
+            current_retry = 1
 
             if dte then
                 dte.CreateTimeEvent("ym_qrs_equip_backpack", "ym_qrs_equip_backpack", 0, equip_backpack, b_sec)
