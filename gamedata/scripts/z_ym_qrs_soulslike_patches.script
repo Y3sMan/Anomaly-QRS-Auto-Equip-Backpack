@@ -259,3 +259,12 @@ function soulslike.actor_on_before_death(who, flags)
 
     _actor_on_before_death(who, flags)
 end
+
+local _destroy = _core.destroy
+function ym_qrs_autoequip_backpack.destroy()
+    _destroy()
+    local mdata = alife_storage_manager:get_state() or {}
+    if mdata and mdata.ym_qrs_equip_backpack then
+        mdata.ym_qrs_equip_backpack = nil
+    end
+end

@@ -294,6 +294,11 @@ function item_backpack.actor_on_item_take_from_box(box, obj)
     _actor_on_item_take_from_box(box, obj)
 end
 
+---Cleanup savedata created by this mod
+---
+---Currently empty, as of v2.0. Defined here for monkey-patching by modules
+function destroy()
+end
 
 function on_game_start()
     -- RegisterScriptCallback("actor_on_item_to_slot", on_item_to_slot)
